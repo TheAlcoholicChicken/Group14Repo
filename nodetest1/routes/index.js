@@ -6,15 +6,11 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-/* GET Hello World page. */
-router.get('/helloworld', function(req, res, next) {
-  res.render('helloworld', { title: 'Hello, World!' });
-});
 
 /* GET Userlist Page. */
 router.get('/userlist', function(req, res) {
   var db = req.db;
-  var collection = db.get('newuser');
+  var collection = db.get('user');
   collection.find({}, {}, function(e, docs) {
     res.render('userlist', {
       "userlist" : docs
@@ -36,14 +32,20 @@ router.post('/adduser', function(req, res) {
   // Get our form values. 
   var userName = req.body.username;
   var userEmail = req.body.useremail;
+  var userPw = req.body.userpw;
 
   // Set collection
-  var collection = db.get('newuser');
+  var userTable = db.get('user');
 
   //Submit to db
-  collection.insert({
+  userTable.insert({
+    "user_id" : generateID(),
+    "core_app_id" : null,
     "username" : userName,
-    "email" : userEmail
+    "email" : userEmail,
+    "password" : userPw,
+    "highscore" : 0,
+    "ranking": 0
   }, function (err, doc) {
     if(err) {
       res.send("There was a problem adding the information to the database");
@@ -53,5 +55,9 @@ router.post('/adduser', function(req, res) {
     }
   });
 });
+
+function generateID() {
+
+}
 
 module.exports = router;

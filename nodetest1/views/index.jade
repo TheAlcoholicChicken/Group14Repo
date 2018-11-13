@@ -9,7 +9,7 @@ block content
     button#loginBtn(class="btn btn-secondary") Log in
     button#logoutBtn(class="btn btn-action hide") Log Out
   
-  div.container(id="gameContent")
+  div#gameContent.container
     div#buttonHolder
     div#wordHolder
     div#defHolder
@@ -19,36 +19,36 @@ block content
       span#chanceNum 7
     button#resetBtn(class="btn btn-primary btn-lg" onclick="resetClicked()") Reset
   
-  div.container(id="addUser")
+  div#addUser.container
     input#addName(type="text" class="form-control hide" placeholder="Your Name")
     button#saveBtn(class="btn btn-action hide") Save
   
-  div.container(id="rankingBoard")
-    table.table
-      thead
-        tr
-        th #
-        th Email
-        th Score
-      tbody
-          tr
-            td.position
-            td.boardName
-            td.boardScore
-          tr
-            td.position
-            td.boardName
-            td.boardScore
-          tr
-            td.position
-            td.boardName
-            td.boardScore
-          tr
-            td.position
-            td.boardName
-            td.boardScore
-          tr
-            td.position
-            td.boardName
-            td.boardScore
+  div#rankingBoard.container
+    //- table.table
+    //-   thead
+    //-     tr
+    //-     th #
+    //-     th Email
+    //-     th Score
+    //-   tbody
+    //-       tr
+    //-         td.position
+    //-         td.boardName
+    //-         td.boardScore
+    //-       tr
+    //-         td.position
+    //-         td.boardName
+    //-         td.boardScore
+    //-       tr
+    //-         td.position
+    //-         td.boardName
+    //-         td.boardScore
+    //-       tr
+    //-         td.position
+    //-         td.boardName
+    //-         td.boardScore
+    //-       tr
+    //-         td.position
+    //-         td.boardName
+    //-         td.boardScore
 
