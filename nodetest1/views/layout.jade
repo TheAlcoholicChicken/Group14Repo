@@ -3,5 +3,9 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+    script(src='/javascripts/controller.js')
+    script(src='/javascripts/model.js')
+    script(src='/javascripts/view.js')
+  body(onload="load_auth()")
     block content
