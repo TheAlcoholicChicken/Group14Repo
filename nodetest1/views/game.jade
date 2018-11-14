@@ -1,0 +1,52 @@
+extends layout
+
+block content
+  body(onload="load_auth()")
+    h1#headingTitle Hangman Game
+    div.container
+      div#authmessage
+    
+    div#gameContent.container
+      div#buttonHolder
+      div#wordHolder
+      div#defHolder
+      div#scoreHolder Score: 
+        span#scoreNum 0
+      div#chancesHolder Chances:
+        span#chanceNum 7
+      div#message
+      button#resetBtn(class="btn btn-primary btn-lg" onclick="resetClicked()") Reset
+    
+    div#addUser.container
+      input#addName(type="text" class="form-control hide" placeholder="Your Name")
+      button#saveBtn(class="btn btn-action hide") Save
+    
+    div#rankingBoard.container
+      //- table.table
+      //-   thead
+      //-     tr
+      //-     th #
+      //-     th Email
+      //-     th Score
+      //-   tbody
+      //-       tr
+      //-         td.position
+      //-         td.boardName
+      //-         td.boardScore
+      //-       tr
+      //-         td.position
+      //-         td.boardName
+      //-         td.boardScore
+      //-       tr
+      //-         td.position
+      //-         td.boardName
+      //-         td.boardScore
+      //-       tr
+      //-         td.position
+      //-         td.boardName
+      //-         td.boardScore
+      //-       tr
+      //-         td.position
+      //-         td.boardName
+      //-         td.boardScore
+

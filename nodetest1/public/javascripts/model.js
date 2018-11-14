@@ -11,6 +11,7 @@ wordDef     = ["A form of body modification where a design is made by inserting 
     "a beetlelike insect with long antennae and legs, feeding by scavenging."];
 var gameWord;
 var chances = 7;
+var userId = null;
 
 // Check if the letter is in the gameWord. 
 function checkLetter(x, score) {

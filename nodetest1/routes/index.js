@@ -10,12 +10,13 @@ router.get('/', function(req, res, next) {
 /* GET Userlist Page. */
 router.get('/userlist', function(req, res) {
   var db = req.db;
-  var collection = db.get('user');
+  var collection = db.get('Player');
   collection.find({}, {}, function(e, docs) {
     res.render('userlist', {
       "userlist" : docs
     })
   })
+  collection.find()
 })
 
 /* GET New User page. */
@@ -35,23 +36,26 @@ router.post('/adduser', function(req, res) {
   var userPw = req.body.userpw;
 
   // Set collection
-  var userTable = db.get('user');
+  var userTable = db.get('Player');
 
   //Submit to db
   userTable.insert({
     "user_id" : generateID(),
     "core_app_id" : null,
-    "username" : userName,
-    "email" : userEmail,
-    "password" : userPw,
-    "highscore" : 0,
-    "ranking": 0
+    "data": {
+      "username" : userName,
+      "email" : userEmail,
+      "password" : userPw,
+      "highscore" : 0,
+      "best_ranking": 0
+    }
+
   }, function (err, doc) {
     if(err) {
       res.send("There was a problem adding the information to the database");
     }
     else {
-      res.redirect("index");
+      res.redirect("");
     }
   });
 });
