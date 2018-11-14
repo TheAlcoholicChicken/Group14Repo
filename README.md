@@ -20,14 +20,14 @@ Make sure to restart Node anytime a change is made in the javascript. No need fo
 
 
 How to make your own db and populate it (better to open in notepad ++)
-1.) Make a directory called data. mine is in C: 
-1.) Go to your MongoDB/bin directory. mine was in: Program Files\MongoDB\Server\4.0\bin
-2.) Open cmd
-3.) Type this:  mongod.exe --dbpath "C:\data".
-4.) Now open another directory in your MongoDB\bin folder.
-5.) Type this: mongo.exe.  You will be typing in here.
-6.) type this:  use nodetest1
-7.) Copy this in, then press enter. After this, you can type db.Player.find().pretty() to view.
+1. Make a directory called data. mine is in C: 
+2. Go to your MongoDB/bin directory. mine was in: Program Files\MongoDB\Server\4.0\bin
+3. Open cmd
+4. Type this:  mongod.exe --dbpath "C:\data".
+5. Now open another directory in your MongoDB\bin folder.
+6. Type this: mongo.exe.  You will be typing in here.
+7. type this:  use nodetest1
+8. Copy this in, then press enter. After this, you can type db.Player.find().pretty() to view.
 ==========================
 db.Player.insert([
    {
