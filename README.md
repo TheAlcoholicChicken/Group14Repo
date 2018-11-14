@@ -19,7 +19,7 @@ If success, it will take you to localhost:3000/userlist and you should be able t
 Make sure to restart Node anytime a change is made in the javascript. No need for Jade, just refresh the page.
 
 
-HOW TO MAKE YOUR OWN DATABASE and populate it
+How to make your own db and populate it (better to open in notepad ++)
 1.) Make a directory called data. mine is in C: 
 1.) Go to your MongoDB/bin directory. mine was in: Program Files\MongoDB\Server\4.0\bin
 2.) Open cmd
