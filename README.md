@@ -26,7 +26,7 @@ Make sure to restart Node anytime a change is made in the javascript. No need fo
 6. Type this: mongo.exe.  You will be typing in here.
 7. type this:  use nodetest1
 8. Copy this in, then press enter. After this, you can type db.Player.find().pretty() to view.
-==========================
+```
 db.Player.insert([
    {
       user_id: '3877f888adaf', 
@@ -94,4 +94,4 @@ db.Player.insert([
       ]
    }
 ])
-=================================
+```
