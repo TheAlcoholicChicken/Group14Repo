@@ -3,36 +3,12 @@ function checkregister() {
 }
 
 function load_auth() {  
-          scoretobeat = 0;
-          //Get elements
-          const txtEmail        = document.getElementById('emailInput');
-          const txtPassword     = document.getElementById("pwInput");
-          const btnLogin        = document.getElementById('loginBtn');
-          const btnSignup       = document.getElementById('registerBtn');
-          const btnLogout       = document.getElementById('logoutBtn');
-          const authmsg         = document.getElementById('authmessage');
-          const gameContent     = document.getElementById('gamecontent');
-          const btnSave         = document.getElementById('saveBtn');
-
-          //Add Login event
-          btnLogin.addEventListener('click', e=> {
-              //Get email and password
-              console.log("click login");
-              const email       = txtEmail.value;
-              const pass        = txtPassword.value;
-          })
-    
-          //Add Sign up event
-          btnSignup.addEventListener('click', e=> {
-                console.log("signup")
-                //Get email and password
-                const email     = txtEmail.value;
-                const pass      = txtPassword.value;
-          })
-    
-          //Add log out event
-          btnLogout.addEventListener('click', e=> {
-          });
+        scoretobeat = 0;
+        //Get elements
+        const btnLogout       = document.getElementById('logoutBtn');
+        const authmsg         = document.getElementById('authmessage');
+        const gameContent     = document.getElementById('gamecontent');
+        const btnSave         = document.getElementById('saveBtn');
     
         // Get Elements
         var boardPosition     = [];
