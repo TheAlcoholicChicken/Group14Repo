@@ -1,3 +1,7 @@
+function checkregister() {
+
+}
+
 function load_auth() {  
           scoretobeat = 0;
           //Get elements

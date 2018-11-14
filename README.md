@@ -10,7 +10,7 @@ Pre-requisites: Node.js and Mongo downloaded
 
 This will install everything in the packages.json file. This will make the node module folder that is specified in the .gitignore.
 
-For this application to work, you must have Node working, as well as mongod.exe.  NOT mongo.exe, though. 
+For this application to work, you must have Node running, as well as mongod.exe.  NOT mongo.exe, though. 
 
 Open localhost:3000 to view what's there so far.
 localhost:3000/newuser  to register yourself in the database.  
