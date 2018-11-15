@@ -6,6 +6,7 @@ const config = require('../config.js');
 
 function authToken(req, res, next) {
     let token = req.body.token;
+    console.log(token);
 
     if (!token) res.status(401).send({ error: "Token Missing" });
 

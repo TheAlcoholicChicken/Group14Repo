@@ -1,13 +1,13 @@
 exports.get_badge_message = function (req, res) {
 
     let db = req.db;
-    let userId = req.body.userId;
+    let user_id = req.body.user_id;
 
     db.collection("Player").find({}, {}, function(e, docs) {
         let userElement = null;
         
         docs.forEach(element => {
-            if (element.user_id === userId) {
+            if (element.core_app_id === user_id) {
                 userElement = element;
             }
         });
@@ -17,7 +17,7 @@ exports.get_badge_message = function (req, res) {
         } else {
             res.status(200);
             res.json({
-                user_id: userElement.user_id,
+                user_id: userElement.core_app_id,
                 badge_text: "Top " + userElement.data.best_ranking + " in Ranking"
             });
             res.end();
