@@ -31,7 +31,7 @@ db.Player.insert([
    {
       user_id: '3877f888adaf', 
       core_app_id: null, 
-      data: [	
+      data: 	
          {
             username:'user1',
             email: '123@1234.com',
@@ -39,12 +39,11 @@ db.Player.insert([
 			highscore: 50,
 			best_ranking: 3 
          }
-      ]
    },
    {
       user_id: '228f888vfaf', 
       core_app_id: null, 
-      data: [	
+      data: 	
          {
             username:'user2',
             email: 'admin@admin.com',
@@ -52,12 +51,11 @@ db.Player.insert([
 			highscore: 65,
 			best_ranking: 2 
          }
-      ]
    },
    {
       user_id: '8643f878fjus', 
       core_app_id: null, 
-      data: [	
+      data: 	
          {
             username:'user3',
             email: 'help@me.com',
@@ -65,12 +63,11 @@ db.Player.insert([
 			highscore: 66,
 			best_ranking: 1 
          }
-      ]
    },
    {
       user_id: '7543f888dfhy', 
       core_app_id: null, 
-      data: [	
+      data: 	
          {
             username:'user4',
             email: 'rabbits@RABBITS.com',
@@ -78,12 +75,11 @@ db.Player.insert([
 			highscore: 49,
 			best_ranking: 4 
          }
-      ]
    },
    {
       user_id: '8743f823av7f', 
       core_app_id: null, 
-      data: [	
+      data: 	
          {
             username:'user5',
             email: '420@420.com',
@@ -91,7 +87,6 @@ db.Player.insert([
 			highscore: 44,
 			best_ranking: 5 
          }
-      ]
    }
 ])
 ```
