@@ -90,3 +90,6 @@ db.Player.insert([
    }
 ])
 ```
+
+# Running the API with Postman
+![alt text](https://github.com/TheAlcoholicChicken/HangmanApp/blob/master/images/postmanapi.png?raw=true)
