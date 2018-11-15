@@ -92,4 +92,4 @@ db.Player.insert([
 ```
 
 # Running the API with Postman
-![alt text](https://github.com/TheAlcoholicChicken/HangmanApp/master/images/postmanapi.png?raw=true)
+![postman](https://github.com/TheAlcoholicChicken/HangmanApp/tree/master/images)
