@@ -1,10 +1,17 @@
 var express = require('express');
 var router = express.Router();
 var userID = null;
+var mongo = require('mongodb');
+var monk = require('monk');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  var db = req.db;
+  if(userID != null) {
+    res.redirect('game');
+  } else {
+    res.render('index', { title: 'Express' });
+  }
 });
 
 /*GET Game page. */
@@ -28,6 +35,27 @@ router.get('/newuser', function(req, res) {
   res.render('newuser', {title: 'Add New User' });
 });
 
+/*POST score*/
+router.post('/addscore', function(req, res) {
+  var db          = req.db;
+  let collection  = db.get('Player');
+  let score       = req.body.score;
+  users.findOne({"user_id": userID}, 'data.highscore').then((doc) => {
+    var dbscore   = doc;
+    console.log(doc);
+  })
+  if(dbscore < score) {
+    if(collection.update({"user_id": userID}, {$set: {"data.highscore":score}})) {
+      console.log("app user");
+    } else if(collection.update({"core_app_id": userID}, {$set: {"data.highscore":score}})){
+      console.log("core app user");
+    } else {
+      console.log("not found");
+    }
+    res.redirect('game');
+  }
+});
+
 /* POST to login service */
 /* TODO: fix the query */
 router.post('/checkuser', function(req, res) {
@@ -39,6 +67,7 @@ router.post('/checkuser', function(req, res) {
     docs.forEach(element => {
       if(element.data.email == userEmail && element.data.password == userPassword) {
         console.log("yes");
+        db.collection()
         userID = element.user_id;
       } 
     });
@@ -58,13 +87,15 @@ router.post('/checkuser', function(req, res) {
 router.post('/adduser', function(req, res) {
 
   //Set our interna; db variable
-  var db = req.db
+  var db = req.db;
 
   // Get our form values. 
   var userName = req.body.username;
   var userEmail = req.body.useremail;
   var userPw = req.body.userpw;
 
+  req.checkBody(userEmail, "Enter a valid e-mail address.").isEmail();
+  req.checkBody(userName, "Must be 6 or more letters.").isLength(6);
   // Set collection
   var userTable = db.get('Player');
 
@@ -87,7 +118,7 @@ router.post('/adduser', function(req, res) {
       res.send("There was a problem adding the information to the database");
     }
     else {
-      res.redirect("game");
+      res.redirect('game');
     }
   });
 });

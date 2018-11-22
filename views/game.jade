@@ -10,16 +10,16 @@ block content
       div#buttonHolder
       div#wordHolder
       div#defHolder
-      div#scoreHolder Score: 
-        span#scoreNum 0
-      div#chancesHolder Chances:
-        span#chanceNum 7
       div#message
-      button#resetBtn(class="btn btn-primary btn-lg" onclick="resetClicked()") Reset
+      button#resetBtn(class="btn btn-primary btn-lg" onclick="resetClicked()") Reset/Start
     
-    div#addUser.container
-      input#addName(type="text" class="form-control hide" placeholder="Your Name")
-      button#saveBtn(class="btn btn-action hide") Save
+    form#formAddUser(name="addscore", method="post", action="/addscore")
+      div#addUser.container
+        div#scoreHolder Score: 
+        input#scoreNum(type="disabled" size=2 value=0 placeholder="score" name="score")
+        div#chancesHolder Chances:
+        span#chanceNum 7
+        button#saveBtn(class="btn btn-action" type="submit" disabled) Save Score
     
     div#rankingBoard.container
       //- table.table

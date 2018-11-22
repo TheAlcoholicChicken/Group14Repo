@@ -18,16 +18,6 @@ function load_auth() {
         boardName             = document.getElementsByClassName('boardname');
         boardScore            = document.getElementsByClassName('boardscore');
         
-        // Addn save button listener
-        btnSave.addEventListener('click', e=> {
-                var index               = -1;
-                var uname = document.getElementById("addName").value;
-                for(let i = 0; i < 5; i++) {
-                        if(boardScore[i] == scoretobeat)
-                        index = i + 1;
-                }                
-        });
-
 };
 
     // Disables button once the word bank is updated
