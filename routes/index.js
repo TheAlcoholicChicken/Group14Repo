@@ -40,10 +40,14 @@ router.post('/addscore', function(req, res) {
   var db          = req.db;
   let collection  = db.get('Player');
   let score       = req.body.score;
-  users.findOne({"user_id": userID}, 'data.highscore').then((doc) => {
-    var dbscore   = doc;
+  let dbscore     = 0;
+
+  //Get the current Highscore of the user logged in.
+  collection.findOne({"user_id": userID}, 'data.highscore').then((doc) => {
+    dbscore       = doc;
     console.log(doc);
   })
+  // If highscore is lower than the score the user got, update db
   if(dbscore < score) {
     if(collection.update({"user_id": userID}, {$set: {"data.highscore":score}})) {
       console.log("app user");
@@ -52,8 +56,8 @@ router.post('/addscore', function(req, res) {
     } else {
       console.log("not found");
     }
-    res.redirect('game');
   }
+  res.redirect('game');
 });
 
 /* POST to login service */
