@@ -65,14 +65,14 @@ function revealLetters(ch) {
 function increaseScore(num) {
     let scoreHolder          = document.getElementById("scoreNum");
     currentScore            += num;
-    scoreHolder.innerHTML    = currentScore;
+    scoreHolder.value    = currentScore;
 };
 
 // Decrese the score by 1 upon an incorrect guess.
 function decreaseScore() {
     let scoreHolder          = document.getElementById("scoreNum");
     --currentScore;
-    scoreHolder.innerHTML   = currentScore;
+    scoreHolder.value   = currentScore;
 };
 
 //Decrease number of chances  by 1 for view.
@@ -110,15 +110,10 @@ function gameOver(score) {
     container.innerHTML     = " ";
     wordHolder.innerHTML    = " ";
     defHolder.innerHTML     = " ";
-    if(currentScore > score) {
-        offerLeadershipBoard();
-    }
-
-};
+    offerLeadershipBoard();
+    };
 
 function offerLeadershipBoard() {
-    textName = document.getElementById("txtUName");
-    btnSave = document.getElementById("btnSave");
-    textName.classList.remove('hide');
-    btnSave.classList.remove('hide');
+    btnSave = document.getElementById("saveBtn");
+    btnSave.disabled = false;
 }

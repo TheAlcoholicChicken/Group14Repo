@@ -1,15 +1,45 @@
 var express = require('express');
 var router = express.Router();
 var userID = null;
+var mongo = require('mongodb');
+var monk = require('monk');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  var db = req.db;
+  if(userID != null) {
+    res.redirect('game');
+  } else {
+    res.render('index', { title: 'Express' });
+  }
 });
 
 /*GET Game page. */
 router.get('/game', function(req, res) {
   res.render('game', {title: 'Landing Page'});
+});
+
+/* GET user ranking page */
+router.get('/ranking', function(req, res) {
+  var db = req.db;
+  var collection = db.get('Player');
+  collection.find({}, {}, function(e, docs) {
+    // console.log(docs);
+    sorted_doc = sortCollection(docs);
+    console.log(sorted_doc)
+    for(var i = 0; i < sorted_doc.length; i++) {
+        if(collection.update({"user_id": sorted_doc[i].user_id}, {$set: {"data.best_ranking":i+1}})) {
+          console.log("app user");
+        } else if(collection.update({"core_app_id": sorted_doc[i].user_id}, {$set: {"data.best_ranking":i}})){
+          console.log("core app user");
+        } else {
+          console.log("not found");
+        }
+    }
+    res.render('ranking', {
+      "ranking" : sorted_doc
+    })
+  });
 });
 
 /* GET Userlist Page. */
@@ -19,13 +49,39 @@ router.get('/userlist', function(req, res) {
   collection.find({}, {}, function(e, docs) {
     res.render('userlist', {
       "userlist" : docs
-    })
-  })
-})
+    });
+  });
+});
 
 /* GET New User page. */
 router.get('/newuser', function(req, res) {
   res.render('newuser', {title: 'Add New User' });
+});
+
+/*POST score*/
+router.post('/addscore', function(req, res) {
+  var db          = req.db;
+  let collection  = db.get('Player');
+  let score       = req.body.score;
+  let dbscore     = 0;
+
+  //Get the current Highscore of the user logged in.
+  collection.findOne({"user_id": userID}, 'data.highscore').then((doc) => {
+    dbscore       = doc;
+    console.log(doc);
+  })
+
+  // If highscore is lower than the score the user got, update db
+  if(dbscore < score) {
+    if(collection.update({"user_id": userID}, {$set: {"data.highscore":score}})) {
+      console.log("app user");
+    } else if(collection.update({"core_app_id": userID}, {$set: {"data.highscore":score}})){
+      console.log("core app user");
+    } else {
+      console.log("not found");
+    }
+  }
+  res.redirect('game');
 });
 
 /* POST to login service */
@@ -39,6 +95,7 @@ router.post('/checkuser', function(req, res) {
     docs.forEach(element => {
       if(element.data.email == userEmail && element.data.password == userPassword) {
         console.log("yes");
+        db.collection()
         userID = element.user_id;
       } 
     });
@@ -58,13 +115,15 @@ router.post('/checkuser', function(req, res) {
 router.post('/adduser', function(req, res) {
 
   //Set our interna; db variable
-  var db = req.db
+  var db = req.db;
 
   // Get our form values. 
   var userName = req.body.username;
   var userEmail = req.body.useremail;
   var userPw = req.body.userpw;
 
+  req.checkBody(userEmail, "Enter a valid e-mail address.").isEmail();
+  req.checkBody(userName, "Must be 6 or more letters.").isLength(6);
   // Set collection
   var userTable = db.get('Player');
 
@@ -87,10 +146,37 @@ router.post('/adduser', function(req, res) {
       res.send("There was a problem adding the information to the database");
     }
     else {
-      res.redirect("game");
+      res.redirect('game');
     }
   });
 });
+
+function sortCollection(docs) {
+  count = 0;
+  if(docs.length <= 1) {
+    return docs;
+  } else {
+    var left = [];
+    var right = [];
+    var newArr = [];
+    var pivot = docs.pop();
+    var length = docs.length;
+
+    for(var i = 0; i < length; i++) {
+      if(docs[i].data.highscore >= pivot.data.highscore) {
+        left.push(docs[i]);
+      } else {
+        right.push(docs[i]);
+      }
+    }
+    return newArr.concat(sortCollection(left), pivot, sortCollection(right));
+  }
+
+}
+
+function populateRank(ranking) {
+  console.log(ranking);
+}
 
 function generateID() {
   var S4 = function() {
