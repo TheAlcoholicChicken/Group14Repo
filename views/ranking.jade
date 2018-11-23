@@ -1,4 +1,7 @@
 extends layout
 
 block content
-  body(getRanking(ranking);)
+  body(onload="populateRank(ranking)")
+    h1.
+    Rankings
+    

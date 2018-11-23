@@ -47,6 +47,7 @@ function to_register() {
         window.location.href="Register.html";
 }
 
-function getRanking(list) {
-        
-}
+function populateRank(ranking) {
+        console.log("hi");
+        console.log(ranking);
+      }

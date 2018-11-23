@@ -25,10 +25,19 @@ router.get('/ranking', function(req, res) {
   var collection = db.get('Player');
   collection.find({}, {}, function(e, docs) {
     // console.log(docs);
-    console.log(sortCollection(docs));
-    
+    sorted_doc = sortCollection(docs);
+    console.log(sorted_doc)
+    for(var i = 0; i < sorted_doc.length; i++) {
+        if(collection.update({"user_id": sorted_doc[i].user_id}, {$set: {"data.best_ranking":i+1}})) {
+          console.log("app user");
+        } else if(collection.update({"core_app_id": sorted_doc[i].user_id}, {$set: {"data.best_ranking":i}})){
+          console.log("core app user");
+        } else {
+          console.log("not found");
+        }
+    }
     res.render('ranking', {
-      "ranking" : docs
+      "ranking" : sorted_doc
     })
   });
 });
@@ -163,6 +172,10 @@ function sortCollection(docs) {
     return newArr.concat(sortCollection(left), pivot, sortCollection(right));
   }
 
+}
+
+function populateRank(ranking) {
+  console.log(ranking);
 }
 
 function generateID() {
