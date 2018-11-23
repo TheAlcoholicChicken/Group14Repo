@@ -47,3 +47,6 @@ function to_register() {
         window.location.href="Register.html";
 }
 
+function getRanking(list) {
+        
+}

@@ -19,6 +19,20 @@ router.get('/game', function(req, res) {
   res.render('game', {title: 'Landing Page'});
 });
 
+/* GET user ranking page */
+router.get('/ranking', function(req, res) {
+  var db = req.db;
+  var collection = db.get('Player');
+  collection.find({}, {}, function(e, docs) {
+    // console.log(docs);
+    console.log(sortCollection(docs));
+    
+    res.render('ranking', {
+      "ranking" : docs
+    })
+  });
+});
+
 /* GET Userlist Page. */
 router.get('/userlist', function(req, res) {
   var db = req.db;
@@ -26,9 +40,9 @@ router.get('/userlist', function(req, res) {
   collection.find({}, {}, function(e, docs) {
     res.render('userlist', {
       "userlist" : docs
-    })
-  })
-})
+    });
+  });
+});
 
 /* GET New User page. */
 router.get('/newuser', function(req, res) {
@@ -47,6 +61,7 @@ router.post('/addscore', function(req, res) {
     dbscore       = doc;
     console.log(doc);
   })
+
   // If highscore is lower than the score the user got, update db
   if(dbscore < score) {
     if(collection.update({"user_id": userID}, {$set: {"data.highscore":score}})) {
@@ -126,6 +141,29 @@ router.post('/adduser', function(req, res) {
     }
   });
 });
+
+function sortCollection(docs) {
+  count = 0;
+  if(docs.length <= 1) {
+    return docs;
+  } else {
+    var left = [];
+    var right = [];
+    var newArr = [];
+    var pivot = docs.pop();
+    var length = docs.length;
+
+    for(var i = 0; i < length; i++) {
+      if(docs[i].data.highscore >= pivot.data.highscore) {
+        left.push(docs[i]);
+      } else {
+        right.push(docs[i]);
+      }
+    }
+    return newArr.concat(sortCollection(left), pivot, sortCollection(right));
+  }
+
+}
 
 function generateID() {
   var S4 = function() {
