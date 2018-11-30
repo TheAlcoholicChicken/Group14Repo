@@ -1,0 +1,12 @@
+#bootstrap-overrides h1 {
+	position: relative;
+    width: 100%;
+    border: 1px solid red;
+    display: block;
+}
+
+body > *  {
+	margin: auto;
+	width: 500px;
+	display: block;
+}
