@@ -16,7 +16,7 @@ block content
     form#formAddUser(name="addscore", method="post", action="/addscore")
       div#addUser.container
         div#scoreHolder Score: 
-        input#scoreNum(type="disabled" size=2 value=0 placeholder="score" name="score")
+        input#scoreNum(type="disabled" size=2 value=0 placeholder="score" name="score" readonly)
         div#chancesHolder Chances:
         span#chanceNum 7
         button#saveBtn(class="btn btn-action" type="submit" disabled) Save Score

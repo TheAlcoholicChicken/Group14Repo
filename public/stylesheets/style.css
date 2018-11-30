@@ -1,0 +1,74 @@
+#bootstrap-overrides h1 {
+	position: relative;
+    width: 100%;
+    border: 1px solid red;
+    display: block;
+}
+
+body {
+	margin: auto;
+	width: 500px;
+	display: block;
+}
+
+#scoreNum {
+	border: none;
+}
+
+#buttonHolder {
+	position: relative;
+	width: 100%;
+	display: block;
+	margin: auto;
+}
+
+.gameLetter {
+	width: 50px;
+	height: 50px;
+}
+
+.buttonContainer {
+	text-align: center;
+}
+
+.gameLetter {
+	margin: 0 auto;
+}
+
+#buttonHolder div {
+	display:block;
+	float:left;
+	width:100%;
+	margin-left: auto;
+}
+
+#gameContent {
+	position: relative;
+	width: 100%;
+	display: block;
+	margin: auto;
+}
+
+#defHolder p {
+	font-size: 20px;
+	position:relative;
+	width: 100%
+	display: block;
+	margin: auto;
+}
+
+#message {
+	font-size: 50px;
+}
+
+#scoreHolder, #scoreNum, #chancesHolder, #chanceNum{
+	font-size: 20px;
+}
+
+#wordHolder p {
+	font-size: 30px;
+}
+
+#chanceNum {
+	padding-right: 20px;
+}

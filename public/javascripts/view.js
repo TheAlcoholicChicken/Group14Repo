@@ -11,16 +11,15 @@ const gameContent       = document.getElementById('gamecontent');
 // Creates buttons A-Z 
 function startGame() {
     var letter, button, p, container;
+	p = document.createElement("div");
+	p.setAttribute("class", "buttonContainer");
     for(var i = 65; i < 91; i++) {
-        if(i == 65 || i == 75 || i == 91) {
-            p = document.createElement("p");
-        }
         var letter          = String.fromCharCode(i);
         button = document.createElement("button");
         button.innerHTML    = letter;
         button.setAttribute("data-letter", letter);
         button.setAttribute("id", letter);
-        button.setAttribute("class", "btn btn-primary btn-lg");
+        button.setAttribute("class", "btn btn-primary btn-lg gameLetter");
         button.addEventListener("click", buttonClicked, false)
         p.appendChild(button);
         if(i == 74 || i == 74 || i == 90) {
