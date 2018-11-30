@@ -27,9 +27,16 @@ body {
 	height: 50px;
 }
 
+.buttonContainer {
+	text-align: center;
+}
+
+.gameLetter {
+	margin: 0 auto;
+}
+
 #buttonHolder div {
 	display:block;
-	display: inline-block;
 	float:left;
 	width:100%;
 	margin-left: auto;
@@ -40,8 +47,6 @@ body {
 	width: 100%;
 	display: block;
 	margin: auto;
-/* 	border-style: solid;
-    border-width: 5px; */
 }
 
 #defHolder p {
