@@ -5,8 +5,43 @@
     display: block;
 }
 
-body > *  {
+body {
 	margin: auto;
 	width: 500px;
 	display: block;
+}
+
+#scoreNum {
+	border: none;
+}
+
+#buttonHolder {
+	position: relative;
+	width: 100%;
+	display: block;
+	margin: auto;
+}
+
+#buttonHolder {
+	
+}
+
+#defHolder p {
+	font-size: 20px;
+}
+
+#message {
+	font-size: 50px;
+}
+
+#scoreHolder, #scoreNum, #chancesHolder, #chanceNum{
+	font-size: 20px;
+}
+
+#wordHolder p {
+	font-size: 30px;
+}
+
+#chanceNum {
+	padding-right: 20px;
 }
