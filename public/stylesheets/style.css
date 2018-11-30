@@ -22,12 +22,34 @@ body {
 	margin: auto;
 }
 
-#buttonHolder {
-	
+.gameLetter {
+	width: 50px;
+	height: 50px;
+}
+
+#buttonHolder div {
+	display:block;
+	display: inline-block;
+	float:left;
+	width:100%;
+	margin-left: auto;
+}
+
+#gameContent {
+	position: relative;
+	width: 100%;
+	display: block;
+	margin: auto;
+/* 	border-style: solid;
+    border-width: 5px; */
 }
 
 #defHolder p {
 	font-size: 20px;
+	position:relative;
+	width: 100%
+	display: block;
+	margin: auto;
 }
 
 #message {
