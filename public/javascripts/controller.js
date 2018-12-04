@@ -18,6 +18,8 @@ function load_auth() {
         boardName             = document.getElementsByClassName('boardname');
         boardScore            = document.getElementsByClassName('boardscore');
         
+        
+
 };
 
     // Disables button once the word bank is updated
