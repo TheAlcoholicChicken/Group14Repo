@@ -110,7 +110,7 @@ router.post('/checkuser', function(req, res) {
       res.redirect("game");
     } else {
       console.log("Login failed");
-      res.redirect("index");
+      res.render('index', { title: 'Express' });
     }
   });
 });
