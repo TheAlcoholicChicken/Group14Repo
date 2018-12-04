@@ -1,8 +1,14 @@
 var express = require('express');
+var app = express()
 var router = express.Router();
 var userID = null;
+var request = require('request')
+var cconfig = require('../config.js');
 var mongo = require('mongodb');
 var monk = require('monk');
+
+var coredb = monk('mongodb://username:abcd1234@ds017193.mlab.com:17193/nodetest1')
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -10,7 +16,7 @@ router.get('/', function(req, res, next) {
   if(userID != null) {
     res.redirect('game');
   } else {
-    res.render('index', { title: 'Express' });
+    res.render('index', { title: 'Hangman App :^)' });
   }
 });
 
@@ -84,6 +90,7 @@ router.post('/addscore', function(req, res) {
   res.redirect('game');
 });
 
+
 /* POST to login service */
 /* TODO: fix the query */
 router.post('/checkuser', function(req, res) {
@@ -94,19 +101,60 @@ router.post('/checkuser', function(req, res) {
   db.collection("Player").find({}, {}, function(e, docs) {  
     docs.forEach(element => {
       if(element.data.email == userEmail && element.data.password == userPassword) {
-        console.log("yes");
         db.collection()
         userID = element.user_id;
       } 
     });
-    console.log(userID);
-    console.log("==========");
     if(userID != null) {
       console.log("You are now logged in");
       res.redirect("game");
     } else {
       console.log("Login failed");
       res.redirect("index");
+    }
+  });
+});
+
+router.post('/blogin', function(req, res) {
+  var db = req.db;
+  var myJSONObject = {
+    user_email: req.body.badgeemail,
+    password: req.body.badgepw,
+    token: cconfig.core_token
+  };
+
+  request({
+    url: "https://management-system-api.herokuapp.com/user/login",
+    method: "POST",
+    json: true,
+    body: myJSONObject
+  }, function(error, response, body) {
+    if ( !error && response.statusCode == 200) {
+      console.log(body)
+      
+      isUser = false;
+      db.collection("Player").find({}, {}, function(e, docs) {  
+        docs.forEach(element => {
+          if(element.core_app_id == body.user_id) {
+            userID = element.core_app_id;
+            isUser = true;
+          } 
+        });
+        // log user in
+        if(isUser) {
+          console.log("You are now logged in");
+          res.redirect("game");
+        } 
+        //Create user
+        else {
+          userID = body.user_id;
+          console.log(userID);
+          userCreated = createBadgeUser(db, userID)
+          if(userCreated) {
+            res.redirect("game");
+          }
+        }
+      });
     }
   });
 });
@@ -158,6 +206,34 @@ router.post('/adduser', function(req, res) {
     }
   });
 });
+
+
+function createBadgeUser(db, id) {
+  // Set collection
+  var userTable = db.get('Player');
+
+  //Submit to db
+  userTable.insert({
+    "user_id" : null,
+    "core_app_id" : id,
+    "data": {
+      "username" : null,
+      "email" : null,
+      "password" : null,
+      "highscore" : 0,
+      "best_ranking": 0
+    }
+  }, function (err, doc) {
+    if(err) {
+      res.send("There was a problem adding the information to the database");
+      return false;
+    }
+    else {
+      return true;
+    }
+  });
+}
+
 
 function sortCollection(docs) {
   count = 0;

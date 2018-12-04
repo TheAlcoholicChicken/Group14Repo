@@ -69,7 +69,7 @@ function increaseScore(num) {
 
 // Decrese the score by 1 upon an incorrect guess.
 function decreaseScore() {
-    let scoreHolder          = document.getElementById("scoreNum");
+    let scoreHolder     = document.getElementById("scoreNum");
     --currentScore;
     scoreHolder.value   = currentScore;
 };
