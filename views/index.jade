@@ -11,6 +11,13 @@ block content
             input#pwInput(type="password" placeholder="Password" name="loginpw")
             button#registerBtn(class="btn btn-action" type="submit") Login
         
+        form#formBadge(name="checkBadgeuser", method="post", action="/blogin")
+            h2.
+                Or, Log in with BadgeBook
+            input#bemailInput(type="email" placeholder="Email" name="badgeemail")
+            input#bpwInput(type="password" placeholder="Password" name="badgepw")
+            button#bregisterBtn(class="btn btn-action" type="submit") Login
+        
         form#formAddUser(name="adduser", method="post", action="/adduser")
             h2.
                 Make an account today
@@ -19,4 +26,4 @@ block content
             input#regPwInput(type="password" placeholder="Password" name="userpw")
             button#regLoginBtn(class="btn btn-secondary" type="submit") Register
             button#logoutBtn(class="btn btn-action hide") Log Out
-    
+

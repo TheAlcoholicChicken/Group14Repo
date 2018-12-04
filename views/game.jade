@@ -15,6 +15,11 @@ block content
       div#message
       button#resetBtn(class="btn btn-primary btn-lg" onclick="resetClicked()") Reset/Start
     
+    section#logout(class="logoutContainer")
+      form#formLogout(name="logoutForm", method="post", action="/logout")
+        div#logout.container
+          button#logoutBtn(class="btn btn-action" type="submit") Logout
+
     form#formAddUser(name="addscore", method="post", action="/addscore")
       div#addUser.container
         div#scoreHolder Score: 

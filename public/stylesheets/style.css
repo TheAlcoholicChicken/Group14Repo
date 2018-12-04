@@ -57,6 +57,11 @@ body {
 	margin: auto;
 }
 
+#loginFailed {
+	color: red;
+	display: none;
+}
+
 #message {
 	font-size: 50px;
 }
