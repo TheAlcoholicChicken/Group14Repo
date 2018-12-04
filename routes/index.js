@@ -1,8 +1,14 @@
 var express = require('express');
+var app = express()
 var router = express.Router();
 var userID = null;
+var request = require('request')
+var cconfig = require('../config.js');
 var mongo = require('mongodb');
 var monk = require('monk');
+
+var coredb = monk('mongodb://username:abcd1234@ds017193.mlab.com:17193/nodetest1')
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -84,32 +90,161 @@ router.post('/addscore', function(req, res) {
   res.redirect('game');
 });
 
-/* POST to login service */
-/* TODO: fix the query */
-router.post('/checkuser', function(req, res) {
-  var db = req.db;
-  var userEmail = req.body.loginemail;
-  var userPassword = req.body.loginpw;
-  // db.collection("Player").find({$and: [{data: {email: userEmail}}, {data: {password : userPassword}}]}, function(e, docs) {
-  db.collection("Player").find({}, {}, function(e, docs) {  
-    docs.forEach(element => {
-      if(element.data.email == userEmail && element.data.password == userPassword) {
-        console.log("yes");
-        db.collection()
-        userID = element.user_id;
-      } 
-    });
-    console.log(userID);
-    console.log("==========");
-    if(userID != null) {
-      console.log("You are now logged in");
-      res.redirect("game");
-    } else {
-      console.log("Login failed");
-      res.redirect("index");
-    }
+
+// /* POST to login service from BADGEBOOK */
+// router.post('/user/login', function(req, res) {
+//   var db      = coredb;
+//   email       = req.user_email;
+//   pw          = req.password;
+//   core_token  = req.token;
+
+//   //unhash password here
+
+//   // Check for token match
+//   if(core_token != cconfig.core_token) {
+//     return({
+//       msg:"invalid token",
+//       user_id: null
+//     });
+//   };
+
+//   // Check for user existence within hangman d/b
+//   var isUser          = false;
+//   var core_user_id    = 0;
+//   db.collection("Player").find({}, {}, function(e, docs) {
+//     docs.forEach(element => {
+//       if(element.data.email == userEmail && element.data.password == userPassword) {
+//         isUser        = true;
+//         db.collection();
+//         core_user_id  = element.core_app_id;
+//       }
+//     }); 
+//   });
+
+//   if(!isUser) {
+//     return({
+//       msg:"invalid user",
+//       user_id: null
+//     })
+//   }
+//   return ({
+//     msg: "success",
+//     user_id: core_user_id
+//   });
+// });
+
+// /* POST to login service */
+// /* TODO: fix the query */
+// router.post('/checkuser', function(req, res) {
+//   var db = req.db;
+//   var userEmail = req.body.loginemail;
+//   var userPassword = req.body.loginpw;
+//   // db.collection("Player").find({$and: [{data: {email: userEmail}}, {data: {password : userPassword}}]}, function(e, docs) {
+//   db.collection("Player").find({}, {}, function(e, docs) {  
+//     docs.forEach(element => {
+//       if(element.data.email == userEmail && element.data.password == userPassword) {
+//         console.log("yes");
+//         db.collection()
+//         userID = element.user_id;
+//       } 
+//     });
+//     console.log(userID);
+//     console.log("==========");
+//     if(userID != null) {
+//       console.log("You are now logged in");
+//       res.redirect("game");
+//     } else {
+//       console.log("Login failed");
+//       res.redirect("index");
+//     }
+//   });
+// });
+
+
+router.post('/blogin', function(req, res) {
+  var myJSONObject = {
+    user_email: req.body.badgeemail,
+    password: req.body.badgepw,
+    token: cconfig.core_token
+  };
+
+  request({
+    url: "https://management-system-api.herokuapp.com/user/login",
+    method: "POST",
+    json: true,
+    body: myJSONObject
+  }, function(error, response, body) {
+    console.log(response);
   });
 });
+
+
+// /* POST to Add User from BADGEBOOK */
+// router.post('/user/create_account', function(req, res) {
+//   var db      = coredb;
+//   email       = req.user_email;
+//   pw          = req.password;
+//   core_token  = req.token;
+
+//   //unhash password here
+
+//   // Check for token match
+//   if(core_token != cconfig.core_token) {
+//     return({
+//       msg:"invalid token",
+//       user_id: null
+//     });
+//   };
+
+//   // Check for user existence within hangman d/b
+//   var isUser          = false;
+//   var core_user_id    = 0;
+//   db.collection("Player").find({}, {}, function(e, docs) {
+//     docs.forEach(element => {
+//       if(element.data.email == userEmail && element.data.password == userPassword) {
+//         isUser        = true;
+//         db.collection();
+//         core_user_id  = element.core_app_id;
+//       }
+//     }); 
+//   });
+
+//   // If e-mail is already in db, return error
+//   if(isUser) {
+//     return ({
+//       msg: "success",
+//       user_id: core_user_id
+//     });
+//   }
+//   // else, create user
+//   // Generate random user ID
+//   userID = generateID();
+
+//   //Submit to db
+//   userTable.insert({
+//     "user_id" : null,
+//     "core_app_id" : userID,
+//     "data": {
+//       "username" : userID,
+//       "email" : email,
+//       "password" : pw,
+//       "highscore" : 0,
+//       "best_ranking": 0
+//     }
+
+//   }, function (err, doc) {
+//     if(err) {
+//       return({
+//         msg:"invalid user",
+//         user_id: null
+//       })
+//     }
+//     else {
+//       res.redirect('game');
+//     }
+//   });
+// });
+
 
 /* POST to Add User Service*/
 router.post('/adduser', function(req, res) {
