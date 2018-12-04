@@ -52,9 +52,14 @@ body {
 #defHolder p {
 	font-size: 20px;
 	position:relative;
-	width: 100%
+	width: 100%;
 	display: block;
 	margin: auto;
+}
+
+#loginFailed {
+	color: red;
+	display: none;
 }
 
 #message {

@@ -90,75 +90,32 @@ router.post('/addscore', function(req, res) {
   res.redirect('game');
 });
 
-
-// /* POST to login service from BADGEBOOK */
-// router.post('/user/login', function(req, res) {
-//   var db      = coredb;
-//   email       = req.user_email;
-//   pw          = req.password;
-//   core_token  = req.token;
-
-//   //unhash password here
-
-//   // Check for token match
-//   if(core_token != cconfig.core_token) {
-//     return({
-//       msg:"invalid token",
-//       user_id: null
-//     });
-//   };
-
-//   // Check for user existence within hangman d/b
-//   var isUser          = false;
-//   var core_user_id    = 0;
-//   db.collection("Player").find({}, {}, function(e, docs) {
-//     docs.forEach(element => {
-//       if(element.data.email == userEmail && element.data.password == userPassword) {
-//         isUser        = true;
-//         db.collection();
-//         core_user_id  = element.core_app_id;
-//       }
-//     }); 
-//   });
-
-//   if(!isUser) {
-//     return({
-//       msg:"invalid user",
-//       user_id: null
-//     })
-//   }
-//   return ({
-//     msg: "success",
-//     user_id: core_user_id
-//   });
-// });
-
-// /* POST to login service */
-// /* TODO: fix the query */
-// router.post('/checkuser', function(req, res) {
-//   var db = req.db;
-//   var userEmail = req.body.loginemail;
-//   var userPassword = req.body.loginpw;
-//   // db.collection("Player").find({$and: [{data: {email: userEmail}}, {data: {password : userPassword}}]}, function(e, docs) {
-//   db.collection("Player").find({}, {}, function(e, docs) {  
-//     docs.forEach(element => {
-//       if(element.data.email == userEmail && element.data.password == userPassword) {
-//         console.log("yes");
-//         db.collection()
-//         userID = element.user_id;
-//       } 
-//     });
-//     console.log(userID);
-//     console.log("==========");
-//     if(userID != null) {
-//       console.log("You are now logged in");
-//       res.redirect("game");
-//     } else {
-//       console.log("Login failed");
-//       res.redirect("index");
-//     }
-//   });
-// });
+/* POST to login service */
+/* TODO: fix the query */
+router.post('/checkuser', function(req, res) {
+  var db = req.db;
+  var userEmail = req.body.loginemail;
+  var userPassword = req.body.loginpw;
+  // db.collection("Player").find({$and: [{data: {email: userEmail}}, {data: {password : userPassword}}]}, function(e, docs) {
+  db.collection("Player").find({}, {}, function(e, docs) {  
+    docs.forEach(element => {
+      if(element.data.email == userEmail && element.data.password == userPassword) {
+        console.log("yes");
+        db.collection()
+        userID = element.user_id;
+      } 
+    });
+    console.log(userID);
+    console.log("==========");
+    if(userID != null) {
+      console.log("You are now logged in");
+      res.redirect("game");
+    } else {
+      console.log("Login failed");
+      res.render('index', { title: 'Express' });
+    }
+  });
+});
 
 
 router.post('/blogin', function(req, res) {
