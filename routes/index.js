@@ -110,7 +110,7 @@ router.post('/checkuser', function(req, res) {
       res.redirect("game");
     } else {
       console.log("Login failed");
-      res.render('index', { title: 'Express' });
+      res.render('index', { title: 'Hangman Game' });
     }
   });
 });
@@ -155,6 +155,8 @@ router.post('/blogin', function(req, res) {
           }
         }
       });
+    } else {
+      res.render('index', { title: 'Hangman Game' });
     }
   });
 });
