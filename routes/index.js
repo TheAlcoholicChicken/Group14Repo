@@ -111,6 +111,14 @@ router.post('/checkuser', function(req, res) {
   });
 });
 
+/* Logs out the user */
+router.post('/logout', function(req, res) {
+  var db = req.db;
+  userID = null;
+  console.log("Login failed");
+  res.render('index', { title: 'Express' });
+});
+
 /* POST to Add User Service*/
 router.post('/adduser', function(req, res) {
 
@@ -174,6 +182,13 @@ function sortCollection(docs) {
 
 }
 
+/* Logs out the user */
+router.post('/logout', function(req, res) {
+  var db = req.db;
+  userID = null;
+  console.log("Login failed");
+  res.render('index', { title: 'Express' });
+});
 function populateRank(ranking) {
   console.log(ranking);
 }
