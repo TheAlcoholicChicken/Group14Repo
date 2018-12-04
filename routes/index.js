@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
   if(userID != null) {
     res.redirect('game');
   } else {
-    res.render('index', { title: 'Express' });
+    res.render('index', { title: 'Hangman App :^)' });
   }
 });
 
@@ -91,77 +91,33 @@ router.post('/addscore', function(req, res) {
 });
 
 
-// /* POST to login service from BADGEBOOK */
-// router.post('/user/login', function(req, res) {
-//   var db      = coredb;
-//   email       = req.user_email;
-//   pw          = req.password;
-//   core_token  = req.token;
-
-//   //unhash password here
-
-//   // Check for token match
-//   if(core_token != cconfig.core_token) {
-//     return({
-//       msg:"invalid token",
-//       user_id: null
-//     });
-//   };
-
-//   // Check for user existence within hangman d/b
-//   var isUser          = false;
-//   var core_user_id    = 0;
-//   db.collection("Player").find({}, {}, function(e, docs) {
-//     docs.forEach(element => {
-//       if(element.data.email == userEmail && element.data.password == userPassword) {
-//         isUser        = true;
-//         db.collection();
-//         core_user_id  = element.core_app_id;
-//       }
-//     }); 
-//   });
-
-//   if(!isUser) {
-//     return({
-//       msg:"invalid user",
-//       user_id: null
-//     })
-//   }
-//   return ({
-//     msg: "success",
-//     user_id: core_user_id
-//   });
-// });
-
-// /* POST to login service */
-// /* TODO: fix the query */
-// router.post('/checkuser', function(req, res) {
-//   var db = req.db;
-//   var userEmail = req.body.loginemail;
-//   var userPassword = req.body.loginpw;
-//   // db.collection("Player").find({$and: [{data: {email: userEmail}}, {data: {password : userPassword}}]}, function(e, docs) {
-//   db.collection("Player").find({}, {}, function(e, docs) {  
-//     docs.forEach(element => {
-//       if(element.data.email == userEmail && element.data.password == userPassword) {
-//         console.log("yes");
-//         db.collection()
-//         userID = element.user_id;
-//       } 
-//     });
-//     console.log(userID);
-//     console.log("==========");
-//     if(userID != null) {
-//       console.log("You are now logged in");
-//       res.redirect("game");
-//     } else {
-//       console.log("Login failed");
-//       res.redirect("index");
-//     }
-//   });
-// });
+/* POST to login service */
+/* TODO: fix the query */
+router.post('/checkuser', function(req, res) {
+  var db = req.db;
+  var userEmail = req.body.loginemail;
+  var userPassword = req.body.loginpw;
+  // db.collection("Player").find({$and: [{data: {email: userEmail}}, {data: {password : userPassword}}]}, function(e, docs) {
+  db.collection("Player").find({}, {}, function(e, docs) {  
+    docs.forEach(element => {
+      if(element.data.email == userEmail && element.data.password == userPassword) {
+        db.collection()
+        userID = element.user_id;
+      } 
+    });
+    if(userID != null) {
+      console.log("You are now logged in");
+      res.redirect("game");
+    } else {
+      console.log("Login failed");
+      res.redirect("index");
+    }
+  });
+});
 
 
 router.post('/blogin', function(req, res) {
+  var db = req.db;
   var myJSONObject = {
     user_email: req.body.badgeemail,
     password: req.body.badgepw,
@@ -174,76 +130,35 @@ router.post('/blogin', function(req, res) {
     json: true,
     body: myJSONObject
   }, function(error, response, body) {
-    console.log(response);
+    if ( !error && response.statusCode == 200) {
+      console.log(body)
+      
+      isUser = false;
+      db.collection("Player").find({}, {}, function(e, docs) {  
+        docs.forEach(element => {
+          if(element.core_app_id == body.user_id) {
+            userID = element.core_app_id;
+            isUser = true;
+          } 
+        });
+        // log user in
+        if(isUser) {
+          console.log("You are now logged in");
+          res.redirect("game");
+        } 
+        //Create user
+        else {
+          userID = body.user_id;
+          console.log(userID);
+          userCreated = createBadgeUser(db, userID)
+          if(userCreated) {
+            res.redirect("game");
+          }
+        }
+      });
+    }
   });
 });
-
-
-// /* POST to Add User from BADGEBOOK */
-// router.post('/user/create_account', function(req, res) {
-//   var db      = coredb;
-//   email       = req.user_email;
-//   pw          = req.password;
-//   core_token  = req.token;
-
-//   //unhash password here
-
-//   // Check for token match
-//   if(core_token != cconfig.core_token) {
-//     return({
-//       msg:"invalid token",
-//       user_id: null
-//     });
-//   };
-
-//   // Check for user existence within hangman d/b
-//   var isUser          = false;
-//   var core_user_id    = 0;
-//   db.collection("Player").find({}, {}, function(e, docs) {
-//     docs.forEach(element => {
-//       if(element.data.email == userEmail && element.data.password == userPassword) {
-//         isUser        = true;
-//         db.collection();
-//         core_user_id  = element.core_app_id;
-//       }
-//     }); 
-//   });
-
-//   // If e-mail is already in db, return error
-//   if(isUser) {
-//     return ({
-//       msg: "success",
-//       user_id: core_user_id
-//     });
-//   }
-//   // else, create user
-//   // Generate random user ID
-//   userID = generateID();
-
-//   //Submit to db
-//   userTable.insert({
-//     "user_id" : null,
-//     "core_app_id" : userID,
-//     "data": {
-//       "username" : userID,
-//       "email" : email,
-//       "password" : pw,
-//       "highscore" : 0,
-//       "best_ranking": 0
-//     }
-
-//   }, function (err, doc) {
-//     if(err) {
-//       return({
-//         msg:"invalid user",
-//         user_id: null
-//       })
-//     }
-//     else {
-//       res.redirect('game');
-//     }
-//   });
-// });
 
 
 /* POST to Add User Service*/
@@ -285,6 +200,34 @@ router.post('/adduser', function(req, res) {
     }
   });
 });
+
+
+function createBadgeUser(db, id) {
+  // Set collection
+  var userTable = db.get('Player');
+
+  //Submit to db
+  userTable.insert({
+    "user_id" : null,
+    "core_app_id" : id,
+    "data": {
+      "username" : null,
+      "email" : null,
+      "password" : null,
+      "highscore" : 0,
+      "best_ranking": 0
+    }
+  }, function (err, doc) {
+    if(err) {
+      res.send("There was a problem adding the information to the database");
+      return false;
+    }
+    else {
+      return true;
+    }
+  });
+}
+
 
 function sortCollection(docs) {
   count = 0;
