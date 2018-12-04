@@ -29,6 +29,10 @@ function startGame() {
 
     }
     generateWord();
+    let hangmanContainer = document.getElementById('HangmanContainer');
+    hangmanContainer.style.backgroundRepeat = "no-repeat";
+    hangmanContainer.style.backgroundImage = "url('../images/Start.png')";
+    hangmanContainer.style.backgroundPosition = "center center"
 };
 
 function createWordView(word, def) {
@@ -78,6 +82,38 @@ function decreaseScore() {
 function decreaseChance(num) {
     let chanceHolder      = document.getElementById("chanceNum");
     chanceHolder.innerHTML  = num;
+
+    if(num === 6) {
+        let hangmanContainer = document.getElementById('HangmanContainer');
+        hangmanContainer.style.backgroundRepeat = "no-repeat";
+        hangmanContainer.style.backgroundImage = "url('../images/01.png')";
+        hangmanContainer.style.backgroundPosition = "center center"
+    } else if(num == 5) {
+        let hangmanContainer = document.getElementById('HangmanContainer');
+        hangmanContainer.style.backgroundRepeat = "no-repeat";
+        hangmanContainer.style.backgroundImage = "url('../images/02.png')";
+        hangmanContainer.style.backgroundPosition = "center center"
+    } else if(num == 4) {
+        let hangmanContainer = document.getElementById('HangmanContainer');
+        hangmanContainer.style.backgroundRepeat = "no-repeat";
+        hangmanContainer.style.backgroundImage = "url('../images/03.png')";
+        hangmanContainer.style.backgroundPosition = "center center"
+    } else if(num == 3) {
+        let hangmanContainer = document.getElementById('HangmanContainer');
+        hangmanContainer.style.backgroundRepeat = "no-repeat";
+        hangmanContainer.style.backgroundImage = "url('../images/04.png')";
+        hangmanContainer.style.backgroundPosition = "center center"
+    } else if(num == 2) {
+        let hangmanContainer = document.getElementById('HangmanContainer');
+        hangmanContainer.style.backgroundRepeat = "no-repeat";
+        hangmanContainer.style.backgroundImage = "url('../images/05.png')";
+        hangmanContainer.style.backgroundPosition = "center center"
+    } else if(num == 1) {
+        let hangmanContainer = document.getElementById('HangmanContainer');
+        hangmanContainer.style.backgroundRepeat = "no-repeat";
+        hangmanContainer.style.backgroundImage = "url('../images/06.png')";
+        hangmanContainer.style.backgroundPosition = "center center"
+    }
 };
 
 //Update view's chance to be full
@@ -85,6 +121,10 @@ function resetChance() {
     let chanceHolder      = document.getElementById("chanceNum");
     chanceHolder.innerHTML  = 7;
     chances = 7;
+    let hangmanContainer = document.getElementById('HangmanContainer');
+    hangmanContainer.style.backgroundRepeat = "no-repeat";
+    hangmanContainer.style.backgroundImage = "url('../images/Start.png')";
+    hangmanContainer.style.backgroundPosition = "center center"
 };
 
 //Outputs a congratulatory message upon a correct guess.
@@ -103,6 +143,7 @@ function retractCongrats() {
 function gameOver(score) {
     let msgHolder           = document.getElementById("message");
     let chanceHolder        = document.getElementById("chanceNum");
+	let imageHolder			= document.getElementById("");
     msgHolder.innerHTML     = "GAME OVER.";
     chanceHolder.innerHTML = 0;
     container = document.getElementById("buttonHolder");
@@ -110,7 +151,12 @@ function gameOver(score) {
     wordHolder.innerHTML    = " ";
     defHolder.innerHTML     = " ";
     offerLeadershipBoard();
-    };
+
+    let hangmanContainer = document.getElementById('HangmanContainer');
+    hangmanContainer.style.backgroundRepeat = "no-repeat";
+    hangmanContainer.style.backgroundImage = "url('../images/GameOver.png')";
+    hangmanContainer.style.backgroundPosition = "center center"
+};
 
 function offerLeadershipBoard() {
     btnSave = document.getElementById("saveBtn");
