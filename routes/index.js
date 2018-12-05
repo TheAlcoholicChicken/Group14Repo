@@ -22,7 +22,7 @@ router.get('/', function (req, res, next) {
 
 /*GET Game page. */
 router.get('/game', function (req, res) {
-  res.render('game', { title: 'Landing Page' });
+  res.render('game', { title: 'Hangman App :^)' });
 });
 
 /* GET user ranking page */
@@ -186,7 +186,7 @@ router.post('/logout', function (req, res) {
   var db = req.db;
   userID = null;
   console.log("Login failed");
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Hangman App :^)' });
 });
 
 /* POST to Add User Service*/
@@ -285,7 +285,7 @@ router.post('/logout', function (req, res) {
   var db = req.db;
   userID = null;
   console.log("Login failed");
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Hangman App :^)' });
 });
 function populateRank(ranking) {
   console.log(ranking);
