@@ -11,9 +11,9 @@ var coredb = monk('mongodb://username:abcd1234@ds017193.mlab.com:17193/nodetest1
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   var db = req.db;
-  if(userID != null) {
+  if (userID != null) {
     res.redirect('game');
   } else {
     res.render('index', { title: 'Hangman App :^)' });
@@ -21,67 +21,67 @@ router.get('/', function(req, res, next) {
 });
 
 /*GET Game page. */
-router.get('/game', function(req, res) {
-  res.render('game', {title: 'Landing Page'});
+router.get('/game', function (req, res) {
+  res.render('game', { title: 'Hangman App :^)' });
 });
 
 /* GET user ranking page */
-router.get('/ranking', function(req, res) {
+router.get('/ranking', function (req, res) {
   var db = req.db;
   var collection = db.get('Player');
-  collection.find({}, {}, function(e, docs) {
+  collection.find({}, {}, function (e, docs) {
     // console.log(docs);
     sorted_doc = sortCollection(docs);
     console.log(sorted_doc)
-    for(var i = 0; i < sorted_doc.length; i++) {
-        if(collection.update({"user_id": sorted_doc[i].user_id}, {$set: {"data.best_ranking":i+1}})) {
-          console.log("app user");
-        } else if(collection.update({"core_app_id": sorted_doc[i].user_id}, {$set: {"data.best_ranking":i}})){
-          console.log("core app user");
-        } else {
-          console.log("not found");
-        }
+    for (var i = 0; i < sorted_doc.length; i++) {
+      if (collection.update({ "user_id": sorted_doc[i].user_id }, { $set: { "data.best_ranking": i + 1 } })) {
+        console.log("app user");
+      } else if (collection.update({ "core_app_id": sorted_doc[i].user_id }, { $set: { "data.best_ranking": i } })) {
+        console.log("core app user");
+      } else {
+        console.log("not found");
+      }
     }
     res.render('ranking', {
-      "ranking" : sorted_doc
+      "ranking": sorted_doc
     })
   });
 });
 
 /* GET Userlist Page. */
-router.get('/userlist', function(req, res) {
+router.get('/userlist', function (req, res) {
   var db = req.db;
   var collection = db.get('Player');
-  collection.find({}, {}, function(e, docs) {
+  collection.find({}, {}, function (e, docs) {
     res.render('userlist', {
-      "userlist" : docs
+      "userlist": docs
     });
   });
 });
 
 /* GET New User page. */
-router.get('/newuser', function(req, res) {
-  res.render('newuser', {title: 'Add New User' });
+router.get('/newuser', function (req, res) {
+  res.render('newuser', { title: 'Add New User' });
 });
 
 /*POST score*/
-router.post('/addscore', function(req, res) {
-  var db          = req.db;
-  let collection  = db.get('Player');
-  let score       = req.body.score;
-  let dbscore     = 0;
+router.post('/addscore', function (req, res) {
+  var db = req.db;
+  let collection = db.get('Player');
+  let score = req.body.score;
+  let dbscore = 0;
 
   //Get the current Highscore of the user logged in.
-  collection.findOne({"user_id": userID}, 'data.highscore').then((doc) => {
-    dbscore       = doc;
+  collection.findOne({ "user_id": userID }, 'data.highscore').then((doc) => {
+    dbscore = doc;
     console.log(doc);
   })
 
   // If highscore is lower than the score the user got, update db
-  if(dbscore < score) {
-    if(collection.update({"user_id": userID}, {$set: {"data.highscore":score}})) {
+  if (dbscore < score) {
+    if (collection.update({ "user_id": userID }, { $set: { "data.highscore": score } })) {
       console.log("app user");
-    } else if(collection.update({"core_app_id": userID}, {$set: {"data.highscore":score}})){
+    } else if (collection.update({ "core_app_id": userID }, { $set: { "data.highscore": score } })) {
       console.log("core app user");
     } else {
       console.log("not found");
@@ -93,29 +93,29 @@ router.post('/addscore', function(req, res) {
 
 /* POST to login service */
 /* TODO: fix the query */
-router.post('/checkuser', function(req, res) {
+router.post('/checkuser', function (req, res) {
   var db = req.db;
   var userEmail = req.body.loginemail;
   var userPassword = req.body.loginpw;
   // db.collection("Player").find({$and: [{data: {email: userEmail}}, {data: {password : userPassword}}]}, function(e, docs) {
-  db.collection("Player").find({}, {}, function(e, docs) {  
+  db.collection("Player").find({}, {}, function (e, docs) {
     docs.forEach(element => {
-      if(element.data.email == userEmail && element.data.password == userPassword) {
+      if (element.data.email == userEmail && element.data.password == userPassword) {
         db.collection()
         userID = element.user_id;
-      } 
+      }
     });
-    if(userID != null) {
+    if (userID != null) {
       console.log("You are now logged in");
       res.redirect("game");
     } else {
       console.log("Login failed");
-      res.render('index', { title: 'Express' });
+      res.render('index', { title: 'Hangman Game' });
     }
   });
 });
 
-router.post('/blogin', function(req, res) {
+router.post('/blogin', function (req, res) {
   var db = req.db;
   var myJSONObject = {
     user_email: req.body.badgeemail,
@@ -128,47 +128,69 @@ router.post('/blogin', function(req, res) {
     method: "POST",
     json: true,
     body: myJSONObject
-  }, function(error, response, body) {
-    if ( !error && response.statusCode == 200) {
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
       console.log(body)
-      
+
       isUser = false;
-      db.collection("Player").find({}, {}, function(e, docs) {  
+      db.collection("Player").find({}, {}, function (e, docs) {
         docs.forEach(element => {
-          if(element.core_app_id == body.user_id) {
+          if (element.core_app_id == body.user_id) {
             userID = element.core_app_id;
             isUser = true;
-          } 
+          }
         });
         // log user in
-        if(isUser) {
+        if (isUser) {
           console.log("You are now logged in");
           res.redirect("game");
-        } 
+        }
         //Create user
         else {
+          // Set userID
           userID = body.user_id;
-          console.log(userID);
-          userCreated = createBadgeUser(db, userID)
-          if(userCreated) {
-            res.redirect("game");
-          }
+          // Set collection
+          var userTable = db.get('Player');
+
+          //Submit to db
+          userTable.insert({
+            "user_id": null,
+            "core_app_id": userID,
+            "data": {
+              "username": null,
+              "email": null,
+              "password": null,
+              "highscore": 0,
+              "best_ranking": 0
+            }
+          }, function (err, doc) {
+            if (err) {
+              res.send("There was a problem adding the information to the database");
+            }
+            else {
+              res.redirect("game");
+            }
+          });
         }
       });
+    } else {
+      console.log(body);
+      console.log(myJSONObject);
+      res.render('index', { title: 'Hangman Game' });
     }
   });
 });
 
 /* Logs out the user */
-router.post('/logout', function(req, res) {
+router.post('/logout', function (req, res) {
   var db = req.db;
   userID = null;
   console.log("Login failed");
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Hangman App :^)' });
 });
 
 /* POST to Add User Service*/
-router.post('/adduser', function(req, res) {
+router.post('/adduser', function (req, res) {
 
   //Set our interna; db variable
   var db = req.db;
@@ -187,18 +209,18 @@ router.post('/adduser', function(req, res) {
   userID = generateID();
   //Submit to db
   userTable.insert({
-    "user_id" : userID,
-    "core_app_id" : null,
+    "user_id": userID,
+    "core_app_id": null,
     "data": {
-      "username" : userName,
-      "email" : userEmail,
-      "password" : userPw,
-      "highscore" : 0,
+      "username": userName,
+      "email": userEmail,
+      "password": userPw,
+      "highscore": 0,
       "best_ranking": 0
     }
 
   }, function (err, doc) {
-    if(err) {
+    if (err) {
       res.send("There was a problem adding the information to the database");
     }
     else {
@@ -214,17 +236,17 @@ function createBadgeUser(db, id) {
 
   //Submit to db
   userTable.insert({
-    "user_id" : null,
-    "core_app_id" : id,
+    "user_id": null,
+    "core_app_id": id,
     "data": {
-      "username" : null,
-      "email" : null,
-      "password" : null,
-      "highscore" : 0,
+      "username": null,
+      "email": null,
+      "password": null,
+      "highscore": 0,
       "best_ranking": 0
     }
   }, function (err, doc) {
-    if(err) {
+    if (err) {
       res.send("There was a problem adding the information to the database");
       return false;
     }
@@ -237,7 +259,7 @@ function createBadgeUser(db, id) {
 
 function sortCollection(docs) {
   count = 0;
-  if(docs.length <= 1) {
+  if (docs.length <= 1) {
     return docs;
   } else {
     var left = [];
@@ -246,8 +268,8 @@ function sortCollection(docs) {
     var pivot = docs.pop();
     var length = docs.length;
 
-    for(var i = 0; i < length; i++) {
-      if(docs[i].data.highscore >= pivot.data.highscore) {
+    for (var i = 0; i < length; i++) {
+      if (docs[i].data.highscore >= pivot.data.highscore) {
         left.push(docs[i]);
       } else {
         right.push(docs[i]);
@@ -259,21 +281,21 @@ function sortCollection(docs) {
 }
 
 /* Logs out the user */
-router.post('/logout', function(req, res) {
+router.post('/logout', function (req, res) {
   var db = req.db;
   userID = null;
   console.log("Login failed");
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Hangman App :^)' });
 });
 function populateRank(ranking) {
   console.log(ranking);
 }
 
 function generateID() {
-  var S4 = function() {
-    return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+  var S4 = function () {
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
   };
-  return(S4()+S4()+S4());
+  return (S4() + S4() + S4());
 };
 
 module.exports = router;
