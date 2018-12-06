@@ -1,16 +1,13 @@
 # Installation
 Pre-requisites: Node.js and Mongo downloaded
 
-1. Go into nodetest1 folder
-2. Open cmd prompt
-3. 'npm install'
-4. 'npm start' to start Node
+1. Open cmd prompt and go to project folder
+2. 'npm install'
+3. 'npm start' to start server
 
 This will install everything in the packages.json file. This will make the node module folder that is specified in the .gitignore.
 
-For this application to work, you must have Node running, as well as mongod.exe.  NOT mongo.exe, though. 
-
-Open localhost:3000 to view what's there so far.
+Open localhost:3000 to view the APP.
 localhost:3000/newuser  to register yourself in the database.  
 If success, it will take you to localhost:3000/userlist and you should be able to see yourself on there.
 
